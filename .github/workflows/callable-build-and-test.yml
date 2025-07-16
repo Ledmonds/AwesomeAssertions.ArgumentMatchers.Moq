@@ -1,0 +1,25 @@
+name: callable-build-and-test
+
+on:
+  workflow_call:
+    
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup-dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '9.x'
+
+      - name: build
+        run: dotnet build ./src/AwesomeAssertions.ArgumentMatchers.Moq.sln --configuration Release
+
+      - name: test
+        run: dotnet test ./src/AwesomeAssertions.ArgumentMatchers.Moq.sln --configuration Release --no-build --verbosity normal
