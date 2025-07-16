@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectGuid>20657E51-4177-43B9-BFA3-E19B039C3CFF</ProjectGuid>
+    <TargetFramework>net9.0</TargetFramework>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>AwesomeAssertions.ArgumentMatchers.Moq</PackageId>
+    <Description>Contains Moq argument matchers using AwesomeAssertions</Description>
+    <Authors>Ronald Bosma</Authors>
+    <PackageTags>netstandard;netcore;Moq;AwesomeAssertions;mocking;mocks;unittesting;unittest;TDD</PackageTags>
+    <PackageProjectUrl>https://github.com/Ledmonds/AwesomeAssertions.ArgumentMatchers.Moq</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/Ledmonds/AwesomeAssertions.ArgumentMatchers.Moq/releases</PackageReleaseNotes>
+    <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Ledmonds/AwesomeAssertions.ArgumentMatchers.Moq</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="AwesomeAssertions" Version="9.1.0" />
+    <PackageReference Include="Moq" Version="[4.13,5)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+</Project>

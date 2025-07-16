@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using FluentAssertions.Equivalency;
+using AwesomeAssertions.Equivalency;
 using Moq;
 
-namespace FluentAssertions.ArgumentMatchers.Moq
+namespace AwesomeAssertions.ArgumentMatchers.Moq
 {
     /// <summary>
-    /// Contains helper methods that combine fuctionality of Moq and FluentAssertions
+    /// Contains helper methods that combine fuctionality of Moq and AwesomeAssertions
     /// to make it easier to work with complex input parameters in mocks.
     /// </summary>
     public static class Its
@@ -28,13 +28,15 @@ namespace FluentAssertions.ArgumentMatchers.Moq
         /// <typeparam name="TValue">Type of the argument to check.</typeparam>
         /// <param name="expected">The expected object to match.</param>
         /// <param name="config">
-        /// A reference to the <seealso cref="EquivalencyAssertionOptions{TValue}"/>
+        /// A reference to the <seealso cref="EquivalencyOptions{TValue}"/>
         /// configuration object that can be used to influence the way the object graphs
-        /// are compared. You can also provide an alternative instance of the <seealso cref="EquivalencyAssertionOptions{TValue}"/> class.
+        /// are compared. You can also provide an alternative instance of the <seealso cref="EquivalencyOptions{TValue}"/> class.
         /// The global defaults are determined by the <seealso cref="AssertionOptions"/> class.
         /// </param>
-        public static TValue EquivalentTo<TValue>(TValue expected,
-            Func<EquivalencyAssertionOptions<TValue>, EquivalencyAssertionOptions<TValue>> config)
+        public static TValue EquivalentTo<TValue>(
+            TValue expected,
+            Func<EquivalencyOptions<TValue>, EquivalencyOptions<TValue>> config
+        )
         {
             return Match.Create(
                 (actual, _) => AreEquivalent(actual, expected, config),
@@ -43,8 +45,11 @@ namespace FluentAssertions.ArgumentMatchers.Moq
             );
         }
 
-        private static bool AreEquivalent<TValue>(object actual, TValue expected,
-            Func<EquivalencyAssertionOptions<TValue>, EquivalencyAssertionOptions<TValue>> config)
+        private static bool AreEquivalent<TValue>(
+            object actual,
+            TValue expected,
+            Func<EquivalencyOptions<TValue>, EquivalencyOptions<TValue>> config
+        )
         {
             try
             {
@@ -54,10 +59,12 @@ namespace FluentAssertions.ArgumentMatchers.Moq
             catch (Exception ex)
             {
                 // Although catching an Exception to return false is a bit ugly
-                // the great advantage is that we can log the error message of FluentAssertions.
+                // the great advantage is that we can log the error message of AwesomeAssertions.
                 // This makes it easier to troubleshoot why a Mock was not called with the expected parameters.
 
-                Trace.WriteLine($"Actual and expected of type {typeof(TValue)} are not equal. Details:");
+                Trace.WriteLine(
+                    $"Actual and expected of type {typeof(TValue)} are not equal. Details:"
+                );
                 Trace.WriteLine(ex.ToString());
                 return false;
             }
@@ -69,13 +76,15 @@ namespace FluentAssertions.ArgumentMatchers.Moq
         /// <typeparam name="TValue">Type of the items of the enumerable to check.</typeparam>
         /// <param name="expected">The expected enumerable to match.</param>
         /// <param name="config">
-        /// A reference to the <seealso cref="EquivalencyAssertionOptions{TValue}"/>
+        /// A reference to the <seealso cref="EquivalencyOptions{TValue}"/>
         /// configuration object that can be used to influence the way the object graphs
-        /// are compared. You can also provide an alternative instance of the <seealso cref="EquivalencyAssertionOptions{TValue}"/> class.
+        /// are compared. You can also provide an alternative instance of the <seealso cref="EquivalencyOptions{TValue}"/> class.
         /// The global defaults are determined by the <seealso cref="AssertionOptions"/> class.
         /// </param>
-        public static IEnumerable<TValue> EquivalentTo<TValue>(IEnumerable<TValue> expected,
-            Func<EquivalencyAssertionOptions<TValue>, EquivalencyAssertionOptions<TValue>> config)
+        public static IEnumerable<TValue> EquivalentTo<TValue>(
+            IEnumerable<TValue> expected,
+            Func<EquivalencyOptions<TValue>, EquivalencyOptions<TValue>> config
+        )
         {
             return Match.Create(
                 (actual, _) => AreEquivalent(actual, expected, config),
@@ -84,21 +93,30 @@ namespace FluentAssertions.ArgumentMatchers.Moq
             );
         }
 
-        private static bool AreEquivalent<TValue>(object actual, IEnumerable<TValue> expected,
-            Func<EquivalencyAssertionOptions<TValue>, EquivalencyAssertionOptions<TValue>> config)
+        private static bool AreEquivalent<TValue>(
+            object actual,
+            IEnumerable<TValue> expected,
+            Func<EquivalencyOptions<TValue>, EquivalencyOptions<TValue>> config
+        )
         {
             try
             {
-                actual.Should().BeAssignableTo<IEnumerable<TValue>>().Which.Should().BeEquivalentTo(expected, config);
+                actual
+                    .Should()
+                    .BeAssignableTo<IEnumerable<TValue>>()
+                    .Which.Should()
+                    .BeEquivalentTo(expected, config);
                 return true;
             }
             catch (Exception ex)
             {
                 // Although catching an Exception to return false is a bit ugly
-                // the great advantage is that we can log the error message of FluentAssertions.
+                // the great advantage is that we can log the error message of AwesomeAssertions.
                 // This makes it easier to troubleshoot why a Mock was not called with the expected parameters.
 
-                Trace.WriteLine($"Actual and expected of type {typeof(IEnumerable<TValue>)} are not equal. Details:");
+                Trace.WriteLine(
+                    $"Actual and expected of type {typeof(IEnumerable<TValue>)} are not equal. Details:"
+                );
                 Trace.WriteLine(ex.ToString());
                 return false;
             }

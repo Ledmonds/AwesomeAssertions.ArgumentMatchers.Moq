@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoFixture;
-using FluentAssertions.ArgumentMatchers.Moq.Tests.TestTools;
+using AwesomeAssertions.ArgumentMatchers.Moq.Tests.TestTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace FluentAssertions.ArgumentMatchers.Moq.Tests
+namespace AwesomeAssertions.ArgumentMatchers.Moq.Tests
 {
     [TestClass]
     public class ItsTests
@@ -51,7 +51,8 @@ namespace FluentAssertions.ArgumentMatchers.Moq.Tests
 
             _mock.Object.DoSomething(complexType);
 
-            Action verify = () => _mock.Verify(m => m.DoSomething(Its.EquivalentTo(expectedComplexType)));
+            Action verify = () =>
+                _mock.Verify(m => m.DoSomething(Its.EquivalentTo(expectedComplexType)));
             verify.Should().Throw<MockException>();
         }
 
@@ -65,10 +66,15 @@ namespace FluentAssertions.ArgumentMatchers.Moq.Tests
 
             _mock.Object.DoSomething(complexType);
 
-            _mock.Verify(m => m.DoSomething(Its.EquivalentTo(
-                expectedComplexType,
-                options => options.Excluding(c => c.ComplexTypeProperty.IntProperty)
-            )));
+            _mock.Verify(
+                m =>
+                    m.DoSomething(
+                        Its.EquivalentTo(
+                            expectedComplexType,
+                            options => options.Excluding(c => c.ComplexTypeProperty.IntProperty)
+                        )
+                    )
+            );
         }
 
         [TestMethod]
@@ -86,7 +92,8 @@ namespace FluentAssertions.ArgumentMatchers.Moq.Tests
 
             _mock.Object.DoSomething(complexType);
 
-            Action verify = () => _mock.Verify(m => m.DoSomething(Its.EquivalentTo<ComplexType>(null)));
+            Action verify = () =>
+                _mock.Verify(m => m.DoSomething(Its.EquivalentTo<ComplexType>(null)));
             verify.Should().Throw<MockException>();
         }
 
@@ -97,7 +104,8 @@ namespace FluentAssertions.ArgumentMatchers.Moq.Tests
 
             _mock.Object.DoSomething(null);
 
-            Action verify = () => _mock.Verify(m => m.DoSomething(Its.EquivalentTo(expectedComplexType)));
+            Action verify = () =>
+                _mock.Verify(m => m.DoSomething(Its.EquivalentTo(expectedComplexType)));
             verify.Should().Throw<MockException>();
         }
 
@@ -124,7 +132,8 @@ namespace FluentAssertions.ArgumentMatchers.Moq.Tests
 
             _mock.Object.DoSomethingWithCollection(list);
 
-            Action verify = () => _mock.Verify(m => m.DoSomethingWithCollection(Its.EquivalentTo(expectedList)));
+            Action verify = () =>
+                _mock.Verify(m => m.DoSomethingWithCollection(Its.EquivalentTo(expectedList)));
             verify.Should().Throw<MockException>();
         }
 
@@ -141,10 +150,15 @@ namespace FluentAssertions.ArgumentMatchers.Moq.Tests
 
             _mock.Object.DoSomethingWithCollection(list);
 
-            _mock.Verify(m => m.DoSomethingWithCollection(Its.EquivalentTo(
-                expectedList,
-                options => options.Excluding(c => c.ComplexTypeProperty.IntProperty)
-            )));
+            _mock.Verify(
+                m =>
+                    m.DoSomethingWithCollection(
+                        Its.EquivalentTo(
+                            expectedList,
+                            options => options.Excluding(c => c.ComplexTypeProperty.IntProperty)
+                        )
+                    )
+            );
         }
     }
 }

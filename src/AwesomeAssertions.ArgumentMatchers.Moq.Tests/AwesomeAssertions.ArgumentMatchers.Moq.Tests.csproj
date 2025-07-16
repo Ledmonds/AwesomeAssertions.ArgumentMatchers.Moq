@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <ProjectGuid>55B50487-1D98-4672-BC4C-80ABB86D6CCB</ProjectGuid>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -12,14 +12,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="FluentAssertions" Version="[6,8)" />
+    <PackageReference Include="AwesomeAssertions" Version="9.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.6.4" />
     <PackageReference Include="MSTest.TestFramework" Version="3.6.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions.ArgumentMatchers.Moq\FluentAssertions.ArgumentMatchers.Moq.csproj" />
+    <ProjectReference Include="..\AwesomeAssertions.ArgumentMatchers.Moq\AwesomeAssertions.ArgumentMatchers.Moq.csproj" />
   </ItemGroup>
 
 </Project>

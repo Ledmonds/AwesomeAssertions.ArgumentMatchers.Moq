@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace FluentAssertions.ArgumentMatchers.Moq.Tests.TestTools
+namespace AwesomeAssertions.ArgumentMatchers.Moq.Tests.TestTools
 {
     [TestClass]
     public class AssemblySetup
@@ -25,7 +25,9 @@ namespace FluentAssertions.ArgumentMatchers.Moq.Tests.TestTools
             var assemblyName = assembly.GetName();
             var assemblyFileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
 
-            Trace.WriteLine($"{assemblyName.Name} - {assemblyName.Version} - {assemblyFileVersionInfo.FileVersion} - {assemblyFileVersionInfo.ProductVersion}");
+            Trace.WriteLine(
+                $"{assemblyName.Name} - {assemblyName.Version} - {assemblyFileVersionInfo.FileVersion} - {assemblyFileVersionInfo.ProductVersion}"
+            );
         }
     }
 }

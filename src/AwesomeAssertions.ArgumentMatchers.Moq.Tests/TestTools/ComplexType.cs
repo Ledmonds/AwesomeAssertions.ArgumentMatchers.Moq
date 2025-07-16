@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace FluentAssertions.ArgumentMatchers.Moq.Tests.TestTools
+namespace AwesomeAssertions.ArgumentMatchers.Moq.Tests.TestTools
 {
     public class ComplexType
     {
