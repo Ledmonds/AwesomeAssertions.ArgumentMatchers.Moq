@@ -2,163 +2,152 @@
 using System.Collections.Generic;
 using AutoFixture;
 using AwesomeAssertions.ArgumentMatchers.Moq.Tests.TestTools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
 
-namespace AwesomeAssertions.ArgumentMatchers.Moq.Tests
+namespace AwesomeAssertions.ArgumentMatchers.Moq.Tests;
+
+public class ItsTests
 {
-    [TestClass]
-    public class ItsTests
+    private Fixture _fixture = new();
+    private Mock<IInterface> _mock = new Mock<IInterface>();
+
+    [Fact]
+    public void EquivalentTo_Matches_Same_Complex_Types()
     {
-        private Fixture _fixture;
-        private Mock<IInterface> _mock;
+        var complexType = _fixture.Create<ComplexType>();
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            _fixture = new Fixture();
-            _mock = new Mock<IInterface>();
-        }
+        _mock.Object.DoSomething(complexType);
 
-        [TestMethod]
-        public void EquivalentTo_Matches_Same_Complex_Types()
-        {
-            var complexType = _fixture.Create<ComplexType>();
+        _mock.Verify(m => m.DoSomething(Its.EquivalentTo(complexType)));
+    }
 
-            _mock.Object.DoSomething(complexType);
+    [Fact]
+    public void EquivalentTo_Matches_Two_Different_Complex_Types_With_Same_Data()
+    {
+        var complexType = _fixture.Create<ComplexType>();
+        var expectedComplexType = complexType.Copy();
 
-            _mock.Verify(m => m.DoSomething(Its.EquivalentTo(complexType)));
-        }
+        _mock.Object.DoSomething(complexType);
 
-        [TestMethod]
-        public void EquivalentTo_Matches_Two_Different_Complex_Types_With_Same_Data()
-        {
-            var complexType = _fixture.Create<ComplexType>();
-            var expectedComplexType = complexType.Copy();
+        _mock.Verify(m => m.DoSomething(Its.EquivalentTo(expectedComplexType)));
+    }
 
-            _mock.Object.DoSomething(complexType);
+    [Fact]
+    public void EquivalentTo_Does_Not_Match_Two_Complex_Types_If_Child_Property_Has_Different_Value()
+    {
+        var complexType = _fixture.Create<ComplexType>();
 
+        var expectedComplexType = complexType.Copy();
+        expectedComplexType.ComplexTypeProperty.IntProperty++;
+
+        _mock.Object.DoSomething(complexType);
+
+        Action verify = () =>
             _mock.Verify(m => m.DoSomething(Its.EquivalentTo(expectedComplexType)));
-        }
+        verify.Should().Throw<MockException>();
+    }
 
-        [TestMethod]
-        public void EquivalentTo_Does_Not_Match_Two_Complex_Types_If_Child_Property_Has_Different_Value()
-        {
-            var complexType = _fixture.Create<ComplexType>();
+    [Fact]
+    public void EquivalentTo_Matches_Two_Complex_Types_If_Child_Property_Has_Different_Value_But_Its_Ignored()
+    {
+        var complexType = _fixture.Create<ComplexType>();
 
-            var expectedComplexType = complexType.Copy();
-            expectedComplexType.ComplexTypeProperty.IntProperty++;
+        var expectedComplexType = complexType.Copy();
+        expectedComplexType.ComplexTypeProperty.IntProperty++;
 
-            _mock.Object.DoSomething(complexType);
+        _mock.Object.DoSomething(complexType);
 
-            Action verify = () =>
-                _mock.Verify(m => m.DoSomething(Its.EquivalentTo(expectedComplexType)));
-            verify.Should().Throw<MockException>();
-        }
-
-        [TestMethod]
-        public void EquivalentTo_Matches_Two_Complex_Types_If_Child_Property_Has_Different_Value_But_Its_Ignored()
-        {
-            var complexType = _fixture.Create<ComplexType>();
-
-            var expectedComplexType = complexType.Copy();
-            expectedComplexType.ComplexTypeProperty.IntProperty++;
-
-            _mock.Object.DoSomething(complexType);
-
-            _mock.Verify(
-                m =>
-                    m.DoSomething(
-                        Its.EquivalentTo(
-                            expectedComplexType,
-                            options => options.Excluding(c => c.ComplexTypeProperty.IntProperty)
-                        )
+        _mock.Verify(
+            m =>
+                m.DoSomething(
+                    Its.EquivalentTo(
+                        expectedComplexType,
+                        options => options.Excluding(c => c.ComplexTypeProperty.IntProperty)
                     )
-            );
-        }
+                )
+        );
+    }
 
-        [TestMethod]
-        public void EquivalentTo_Matches_If_Actual_And_Expected_Are_Null()
-        {
-            _mock.Object.DoSomething(null);
+    [Fact]
+    public void EquivalentTo_Matches_If_Actual_And_Expected_Are_Null()
+    {
+        _mock.Object.DoSomething(null);
 
-            _mock.Verify(m => m.DoSomething(Its.EquivalentTo<ComplexType>(null)));
-        }
+        _mock.Verify(m => m.DoSomething(Its.EquivalentTo<ComplexType>(null)));
+    }
 
-        [TestMethod]
-        public void EquivalentTo_Does_Not_Match_If_Actual_Object_Has_Value_And_Expected_Object_Is_Null()
-        {
-            var complexType = _fixture.Create<ComplexType>();
+    [Fact]
+    public void EquivalentTo_Does_Not_Match_If_Actual_Object_Has_Value_And_Expected_Object_Is_Null()
+    {
+        var complexType = _fixture.Create<ComplexType>();
 
-            _mock.Object.DoSomething(complexType);
+        _mock.Object.DoSomething(complexType);
 
-            Action verify = () =>
-                _mock.Verify(m => m.DoSomething(Its.EquivalentTo<ComplexType>(null)));
-            verify.Should().Throw<MockException>();
-        }
+        var action = () => _mock.Verify(m => m.DoSomething(Its.EquivalentTo<ComplexType>(null)));
+        action.Should().Throw<MockException>();
+    }
 
-        [TestMethod]
-        public void EquivalentTo_Does_Not_Match_If_Actual_Object_Is_Null_And_Expected_Object_Has_Value()
-        {
-            var expectedComplexType = _fixture.Create<ComplexType>();
+    [Fact]
+    public void EquivalentTo_Does_Not_Match_If_Actual_Object_Is_Null_And_Expected_Object_Has_Value()
+    {
+        var expectedComplexType = _fixture.Create<ComplexType>();
 
-            _mock.Object.DoSomething(null);
+        _mock.Object.DoSomething(null);
 
-            Action verify = () =>
-                _mock.Verify(m => m.DoSomething(Its.EquivalentTo(expectedComplexType)));
-            verify.Should().Throw<MockException>();
-        }
+        var action = () => _mock.Verify(m => m.DoSomething(Its.EquivalentTo(expectedComplexType)));
+        action.Should().Throw<MockException>();
+    }
 
-        [TestMethod]
-        public void EquivalentTo_Matches_Two_Different_Types_With_Same_Data()
-        {
-            var list = new List<ComplexType> { _fixture.Create<ComplexType>() };
+    [Fact]
+    public void EquivalentTo_Matches_Two_Different_Types_With_Same_Data()
+    {
+        var list = new List<ComplexType> { _fixture.Create<ComplexType>() };
 
-            _mock.Object.DoSomethingWithCollection(list.ToArray());
+        _mock.Object.DoSomethingWithCollection(list.ToArray());
 
-            _mock.Verify(x => x.DoSomethingWithCollection(Its.EquivalentTo(list)));
-        }
+        _mock.Verify(x => x.DoSomethingWithCollection(Its.EquivalentTo(list)));
+    }
 
-        [TestMethod]
-        public void EquivalentTo_Does_Not_Match_Two_Collections_When_Child_Property_Has_Different_Value()
-        {
-            var complexType = _fixture.Create<ComplexType>();
-            var list = new List<ComplexType> { complexType };
+    [Fact]
+    public void EquivalentTo_Does_Not_Match_Two_Collections_When_Child_Property_Has_Different_Value()
+    {
+        var complexType = _fixture.Create<ComplexType>();
+        var list = new List<ComplexType> { complexType };
 
-            var expectedComplexType = complexType.Copy();
-            // Change a property of the expected object to make it different from the actual object
-            expectedComplexType.ComplexTypeProperty.IntProperty++;
-            var expectedList = new List<ComplexType> { expectedComplexType };
+        var expectedComplexType = complexType.Copy();
+        // Change a property of the expected object to make it different from the actual object
+        expectedComplexType.ComplexTypeProperty.IntProperty++;
+        var expectedList = new List<ComplexType> { expectedComplexType };
 
-            _mock.Object.DoSomethingWithCollection(list);
+        _mock.Object.DoSomethingWithCollection(list);
 
-            Action verify = () =>
-                _mock.Verify(m => m.DoSomethingWithCollection(Its.EquivalentTo(expectedList)));
-            verify.Should().Throw<MockException>();
-        }
+        Action verify = () =>
+            _mock.Verify(m => m.DoSomethingWithCollection(Its.EquivalentTo(expectedList)));
+        verify.Should().Throw<MockException>();
+    }
 
-        [TestMethod]
-        public void EquivalentTo_Matches_Two_Collections_When_Child_Property_Has_Different_Value_But_Its_Ignored()
-        {
-            var complexType = _fixture.Create<ComplexType>();
-            var list = new List<ComplexType> { complexType };
+    [Fact]
+    public void EquivalentTo_Matches_Two_Collections_When_Child_Property_Has_Different_Value_But_Its_Ignored()
+    {
+        var complexType = _fixture.Create<ComplexType>();
+        var list = new List<ComplexType> { complexType };
 
-            var expectedComplexType = complexType.Copy();
-            // Change a property of the expected object to make it different from the actual object
-            expectedComplexType.ComplexTypeProperty.IntProperty++;
-            var expectedList = new List<ComplexType> { expectedComplexType };
+        var expectedComplexType = complexType.Copy();
+        // Change a property of the expected object to make it different from the actual object
+        expectedComplexType.ComplexTypeProperty.IntProperty++;
+        var expectedList = new List<ComplexType> { expectedComplexType };
 
-            _mock.Object.DoSomethingWithCollection(list);
+        _mock.Object.DoSomethingWithCollection(list);
 
-            _mock.Verify(
-                m =>
-                    m.DoSomethingWithCollection(
-                        Its.EquivalentTo(
-                            expectedList,
-                            options => options.Excluding(c => c.ComplexTypeProperty.IntProperty)
-                        )
+        _mock.Verify(
+            m =>
+                m.DoSomethingWithCollection(
+                    Its.EquivalentTo(
+                        expectedList,
+                        options => options.Excluding(c => c.ComplexTypeProperty.IntProperty)
                     )
-            );
-        }
+                )
+        );
     }
 }
