@@ -21,7 +21,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="AwesomeAssertions" Version="[9,)" />
+    <PackageReference Include="AwesomeAssertions" Version="9.1.0" />
     <PackageReference Include="Moq" Version="[4.13,5)" />
   </ItemGroup>
 </Project>
