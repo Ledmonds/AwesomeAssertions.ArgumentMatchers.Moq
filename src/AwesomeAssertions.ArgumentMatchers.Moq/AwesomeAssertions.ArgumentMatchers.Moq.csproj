@@ -10,7 +10,7 @@
   <PropertyGroup>
     <PackageId>AwesomeAssertions.ArgumentMatchers.Moq</PackageId>
     <Description>Contains Moq argument matchers using AwesomeAssertions</Description>
-    <Authors>Ronald Bosma</Authors>
+    <Authors>Leuan Edmonds</Authors>
     <PackageTags>netstandard;netcore;Moq;AwesomeAssertions;mocking;mocks;unittesting;unittest;TDD</PackageTags>
     <PackageProjectUrl>https://github.com/Ledmonds/AwesomeAssertions.ArgumentMatchers.Moq</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Ledmonds/AwesomeAssertions.ArgumentMatchers.Moq/releases</PackageReleaseNotes>
@@ -18,6 +18,8 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/Ledmonds/AwesomeAssertions.ArgumentMatchers.Moq</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <Title>AwesomeAssertions.ArgumentMatchers.Moq</Title>
+    <Company>Leuan Edmonds</Company>
   </PropertyGroup>
   
   <ItemGroup>
