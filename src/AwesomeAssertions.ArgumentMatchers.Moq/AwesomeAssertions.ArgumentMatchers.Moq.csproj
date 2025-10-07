@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>AwesomeAssertions.ArgumentMatchers.Moq</PackageId>
+    <PackageId>ArgumentMatchers.Moq.AwesomeAssertions</PackageId>
     <Description>Contains Moq argument matchers using AwesomeAssertions</Description>
     <Authors>Leuan Edmonds</Authors>
     <PackageTags>netstandard;netcore;Moq;AwesomeAssertions;mocking;mocks;unittesting;unittest;TDD</PackageTags>
@@ -21,6 +21,10 @@
     <Title>AwesomeAssertions.ArgumentMatchers.Moq</Title>
     <Company>Leuan Edmonds</Company>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" Version="[9,)" />
