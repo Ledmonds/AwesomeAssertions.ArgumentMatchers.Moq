@@ -2,10 +2,14 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions"
+    commit-message:
+      prefix: "ci"
     directory: "/"
     schedule:
       interval: "weekly"
   - package-ecosystem: nuget
+    commit-message:
+      prefix: "deps"
     directory: "/src"
     schedule:
       interval: "weekly"

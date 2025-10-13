@@ -13,8 +13,11 @@
       "section": "Chores"
     },
     {
-      "type": "chore",
-      "scope": "deps",
+      "type": "ci",
+      "section": "CI/CD"
+    },
+    {
+      "type": "deps",
       "section": "Dependency Updates"
     }
   ],
